@@ -1,5 +1,6 @@
 'use strict';
 const INITIAL_STATE = {
+	feed: []
 };
 
 function feeds(state=INITIAL_STATE, action) {

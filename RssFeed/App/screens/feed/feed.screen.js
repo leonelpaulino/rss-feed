@@ -12,6 +12,7 @@ import {
 import ChannelModal from '../../components/channelModal/component';
 import TagModal from '../../components/tagModal/component';
 import TagRow from '../../components/tagRow/component';
+import ChannelRow from '../../components/channelRow/component';
 import Modal from '../../components/modal/component';
 
 class Feed extends Component {
@@ -24,7 +25,7 @@ class Feed extends Component {
   render () {
     return (
       <View style = {{flex: 1}}> 
-        <TagRow data = 'ET'/>
+        <ChannelRow data = {{name:'CNN'}}/>
       </View>
     );
   }

@@ -2,17 +2,25 @@
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import styles from './style';
 import ModalBox from 'react-native-modalbox';
 
 class Modal extends Component {
 
 	static propTypes: {
+		height: React.ProTypes.number,
+		width: React.ProTypes.number,
 		isOpen: React.ProTypes.bool,
 		onClose: React.ProTypes.func,
 		onOpen: React.ProTypes.func,
 		onClosingState: React.ProTypes.func,
+		swipeToClose: React.ProTypes.bool,
 		component: React.ProTypes.element
+	}
+
+	static defaultProps = {
+		swipeToClose: false,
+		height: 350,
+		width: 300
 	}
 
   constructor(props) {
@@ -54,9 +62,9 @@ class Modal extends Component {
   render () {
     return (
 		  <ModalBox 
-			  style={styles.modal1} 
+			  style={{height:this.props.height, width: this.props.width}} 
 			  ref={"modal1"} 
-			  swipeToClose={false} 
+			  swipeToClose={this.props.swipeToClose} 
 			  onClosed={this.onClose.bind(this)} 
 			  onOpened={this.onOpen.bind(this)} 
 			  onClosingState={this.onClosingState.bind(this)}

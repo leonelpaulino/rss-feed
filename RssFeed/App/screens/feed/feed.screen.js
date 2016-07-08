@@ -10,6 +10,8 @@ import {
   View
 } from 'react-native';
 import ChannelModal from '../../components/channelModal/component';
+import TagModal from '../../components/tagModal/component';
+import TagRow from '../../components/tagRow/component';
 import Modal from '../../components/modal/component';
 
 class Feed extends Component {
@@ -22,7 +24,7 @@ class Feed extends Component {
   render () {
     return (
       <View style = {{flex: 1}}> 
-        <Modal isOpen = {this.state.isOpen} component = {<ChannelModal/>}/>
+        <TagRow data = 'ET'/>
       </View>
     );
   }

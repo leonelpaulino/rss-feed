@@ -5,18 +5,39 @@
  */
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import styles from './styles.js;'
+import { View, Image, Text, TouchableHighlight, Platform, TouchableNativeFeedback} from 'react-native';
+import styles from './style'
 
-class tagRow extends Component {
+class TagRow extends Component {
+
+	static propTypes: {
+		data: React.PropTypes.string,
+    onClick: React.PropTypes.func
+	}
 
   constructor(props) {
     super(props);
   }
 
   render () {
-    return (<View/>);
+    let content = (
+      <View style = {styles.container}>
+        <Text style = {styles.text}>{this.props.data}</Text>
+        <Image source = {require('./images/ic_keyboard_arrow_right_.png')}/>
+      </View>
+    );
+    if (Platform.OS === 'ios') {
+      return (
+        <TouchableHighlight onPress = {()=> this.props.onClick} underlayColor = 'transparent'>
+          {content}
+        </TouchableHighlight>
+    	);
+    } else {
+      <TouchableNativeFeedback onPress = {()=> this.props.onClick}>
+        {content}
+      </TouchableNativeFeedback>
+    }
   }
 }
 
-module.exports = tagRow;
+module.exports = TagRow;

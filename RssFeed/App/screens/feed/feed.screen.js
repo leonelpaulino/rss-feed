@@ -9,10 +9,21 @@ import {
   Text,
   View
 } from 'react-native';
-import DrawerLayout from 'react-native-drawer-layout';
+import ChannelModal from '../../components/channelModal/component';
+import Modal from '../../components/modal/component';
+
 class Feed extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isOpen: true
+		}
+	}
   render () {
     return (
+      <View style = {{flex: 1}}> 
+        <Modal isOpen = {this.state.isOpen} component = {<ChannelModal/>}/>
+      </View>
     );
   }
 }

@@ -1,14 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+'use strict';
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import styles from './styles.js;'
+import styles from './styles'
+import Modal from 'react-native-modalbox';
+import TextField from 'react-native-md-textinput';
 
 class tagModal extends Component {
+	
+	static propTypes: {
+		submit: React.PropTypes.func,		
+	}
 
   constructor(props) {
     super(props);

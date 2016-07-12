@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableHighlight, Platform, TouchableNativeFeedback} from 'react-native';
+import { View, Image, Text, TouchableHighlight, Platform, TouchableNativeFeedback } from 'react-native';
 import styles from './style'
 
 class TagRow extends Component {
@@ -33,9 +33,11 @@ class TagRow extends Component {
         </TouchableHighlight>
     	);
     } else {
-      <TouchableNativeFeedback onPress = {()=> this.props.onClick}>
-        {content}
-      </TouchableNativeFeedback>
+      return (
+        <TouchableNativeFeedback onPress = {()=> this.props.onClick}>
+          {content}
+        </TouchableNativeFeedback>
+      );
     }
   }
 }

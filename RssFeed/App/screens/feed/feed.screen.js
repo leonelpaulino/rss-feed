@@ -9,23 +9,17 @@ import {
   Text,
   View
 } from 'react-native';
-import ChannelModal from '../../components/channelModal/component';
-import TagModal from '../../components/tagModal/component';
-import TagRow from '../../components/tagRow/component';
-import ChannelRow from '../../components/channelRow/component';
-import Modal from '../../components/modal/component';
 
 class Feed extends Component {
+  
 	constructor(props) {
 		super(props);
-		this.state = {
-			isOpen: true
-		}
 	}
+
   render () {
     return (
-      <View style = {{flex: 1}}> 
-        <ChannelRow data = {{name:'CNN'}}/>
+      <View style = {{marginTop:70}}> 
+        <Text>this is the feed screen</Text>
       </View>
     );
   }

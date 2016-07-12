@@ -19,18 +19,24 @@ class ChannelRow extends Component {
   constructor(props) {
     super(props);
   }
-
+  _getButtonText (text) {
+    return <Text style={ styles.buttonText }>{ text }</Text>;
+  }
   _getEditButton () {
-  	let content  = <Image source = {require('./images/ic_create_black.png')} style = {styles.editImage}/>;
+    let content = (
+      <View style={ [styles.buttonContainer,styles.editContainer] }>
+        { this._getButtonText('Edit') }
+      </View>
+    );
   	if (Platform.OS === 'ios') {
   		return (
-  			<TouchableHighlight onPress = {() => this.props.editClick(this.props.data)}>
+  			<TouchableHighlight onPress = {() => this.props.editClick(this.props.data)} underlayColor='transparent'>
   				{content}
   			</TouchableHighlight>
 			);
   	} else {
   		return (
-  			<TouchableNativeFeedback>
+  			<TouchableNativeFeedback onPress = {() => this.props.editClick(this.props.data)}>
   				{content}
   			</TouchableNativeFeedback>
 			);
@@ -38,16 +44,20 @@ class ChannelRow extends Component {
   }
 
   _getDeleteButton () {
-  	let content  = <Image source = {require('./images/ic_delete.png')} style = {styles.deleteImage}/>;
+    let content = (
+      <View style={ [styles.buttonContainer,styles.deleteContainer] }>
+        { this._getButtonText('Delete') }
+      </View>
+    );
   	if (Platform.OS === 'ios') {
   		return (
-  			<TouchableHighlight onPress = {() => this.props.editClick(this.props.data)}>
+  			<TouchableHighlight onPress = {() => this.props.deleteClick(this.props.data)} underlayColor='transparent'>
   				{content}
   			</TouchableHighlight>
 			);
   	} else {
   		return (
-  			<TouchableNativeFeedback onPress = {() => this.props.editClick(this.props.data)}>
+  			<TouchableNativeFeedback onPress = {() => this.props.deleteClick(this.props.data)}>
   				{content}
   			</TouchableNativeFeedback>
 			);

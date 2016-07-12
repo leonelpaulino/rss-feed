@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import styles from './styles.js;'
+import styles from './style';
 
 class Separator extends Component {
 
@@ -15,7 +15,7 @@ class Separator extends Component {
   }
 
   render () {
-    return (<View/>);
+    return (<View style={ styles.separator }/>);
   }
 }
 

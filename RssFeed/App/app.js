@@ -11,6 +11,7 @@ import Feed from './screens/feed/feed.screen.js';
 import Channel from './screens/channels/channels.screen.js';
 import Tags from './screens/tags/tags.screen.js';
 import configureStore from './store/configureStore.js';
+import Drawer from './components/drawer/component';
 import { setTheme } from 'react-native-material-kit';
 setTheme({checkboxStyle: {
   fillColor: '#00BCD4',
@@ -30,7 +31,7 @@ class App extends Component {
     return (
       <Provider store = {this.state.store}>
         <Router>
-          <Scene key="root">
+          <Scene key="drawer" component={Drawer} open={false}>
             <Scene key="feed" component={Feed} title="Feed"/>
             <Scene key="tag" component={Tags} title="Tags"/>
             <Scene key="channel" component={Channel} title="Channel"/>

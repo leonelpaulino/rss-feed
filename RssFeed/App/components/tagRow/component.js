@@ -28,13 +28,13 @@ class TagRow extends Component {
     );
     if (Platform.OS === 'ios') {
       return (
-        <TouchableHighlight onPress = {()=> this.props.onClick} underlayColor = 'transparent'>
+        <TouchableHighlight onPress = {()=> this.props.onClick(this.props.data)} underlayColor = 'transparent'>
           {content}
         </TouchableHighlight>
     	);
     } else {
       return (
-        <TouchableNativeFeedback onPress = {()=> this.props.onClick}>
+        <TouchableNativeFeedback onPress = {()=> this.props.onClick(this.props.data)}>
           {content}
         </TouchableNativeFeedback>
       );

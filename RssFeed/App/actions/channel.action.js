@@ -18,8 +18,15 @@ function editChannel (channel) {
   };
 }
 
+function toggleChannelModal(){
+  return {
+    type: 'TOGGLE_MODAL_CHANNEL'
+  };
+}
+
 module.exports = {
   addChannel,
   deleteChannel,
-  editChannel
+  editChannel,
+  toggleChannelModal
 };

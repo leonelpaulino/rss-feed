@@ -1,9 +1,10 @@
 'use strict';
 
-function toggleDrawer () {
-	return {
-		type: 'TOGGLE_DRAWER'
-	};
+function toggleDrawer (isOpen) {
+  return {
+    type: 'TOGGLE_DRAWER',
+    isOpen: isOpen
+  };
 }
 
 module.exports = toggleDrawer;

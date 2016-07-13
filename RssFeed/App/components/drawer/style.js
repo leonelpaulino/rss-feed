@@ -1,14 +1,24 @@
 import { StyleSheet } from 'react-native';
 
 let style = StyleSheet.create({
-  drawer: { 
-    shadowColor: '#000000', 
-    shadowOpacity: 0.8, 
-    shadowRadius: 3
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  main: {
-    paddingLeft: 3
+  buttonContainer: {
+    paddingTop: 16,
+    paddingLeft: 16,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-})
+  image: {
+    opacity: 0.5
+  },
+  text: {
+    marginLeft: 16,
+    color: 'rgba(0,0,0,0.87)',
+    fontSize: 14
+  }
+});
 
 module.exports = style;

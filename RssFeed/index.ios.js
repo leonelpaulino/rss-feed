@@ -5,6 +5,6 @@
  */
 
 import { AppRegistry } from 'react-native';
-import App from './App/app.js';
+import App from './App/config.js';
 
 AppRegistry.registerComponent('RssFeed', () => App);

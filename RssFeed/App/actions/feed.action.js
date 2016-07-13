@@ -12,7 +12,14 @@ function loadingFeed () {
 	};
 }
 
-module.export = {
+function refreshFeed () {
+	return {
+		type: 'FEED_REFRESH'
+	};
+}
+
+module.exports = {
 	loadFeed,
-	loadingFeed
+	loadingFeed,
+	refreshFeed
 };

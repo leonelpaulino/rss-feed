@@ -1,9 +1,19 @@
 'use strict'
 
 function addTag (tag) {
-	return {
-		type: 'ADD_CHANNEL'
-	};
+  return {
+    type: 'ADD_TAG'
+  };
 }
 
-moduel.exports = addTag;
+function toggleTagModal (isOpen) {
+  return {
+    type: 'TOGGLE_TAG_MODAL',
+    isModalOpen: isOpen
+  }
+}
+
+module.exports = {
+  addTag,
+  toggleTagModal
+};

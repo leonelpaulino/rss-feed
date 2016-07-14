@@ -20,13 +20,10 @@ import TagModal from '../../components/tagModal/component'
 import Modal from '../../components/modal/component'
 import Separator from '../../components/separator/component';
 import styles from './style';
-import { addTag, toggleTagModal } from '../../actions/tag.action';
+import { addTag } from '../../actions/tag.action';
+import { toggleModal } from '../../actions/modal.action';
 
 class Tags extends Component {
-
-    static defaultProps = {
-      isModalOpen: false
-    }
 
     constructor(props) {
       super(props)
@@ -51,15 +48,16 @@ class Tags extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.dataSource = this.dataSource.cloneWithRows(nextProps.tags);     
+    if (nextProps.tags){
+      this.dataSource = this.dataSource.cloneWithRows(nextProps.tags);     
+    }
   }
-
 
   render () {
     return (
       <View style={ styles.container }>
         <ListView
-          enableEmptySectinos={ true }
+          enableEmptySections={ true }
           renderRow={ this._renderRow.bind(this) }
           dataSource={ this.dataSource }
           renderSeparator={ this._renderSeparator }
@@ -67,6 +65,7 @@ class Tags extends Component {
         <Modal 
           submit={ this._submitTag }
           isOpen={ this.props.isModalOpen }
+          onClose={ this.props.onCloseModal }
           height={ 200 }
           swipeToClose={ true }
           component={ <TagModal submit={this.props.onSubmit}/>}
@@ -79,17 +78,20 @@ class Tags extends Component {
 function mapStateToProps(objState) {
   return {
     tags: objState.tags.tags,
-    isModalOpen: objState.tags.isModalOpen
+    isModalOpen: objState.modal.isModalOpen
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     onSubmit: (data) => {
       dispatch(addTag(data));
-      dispatch(toggleTagModal(false));
+      dispatch(toggleModal(false));
+    },
+    onCloseModal: () => {
+      dispatch(toggleModal(false));
     }
-  }
+  };
 }
 
 module.exports = connect(mapStateToProps,mapDispatchToProps)(Tags);

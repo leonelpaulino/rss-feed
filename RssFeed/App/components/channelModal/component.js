@@ -15,13 +15,13 @@ class ChannelModal extends Component {
 		submit: React.ProTypes.func,
 		isEdit: React.PropTypes.bool,
 		tags: React.ProTypes.array,
-		channel:React.PropTypes.object
+		channel: React.PropTypes.object
 	}
 
 	static defaultProps = {
 		isOpen: false,
 		isEdit: false,
-		tags: ['IT','ET','EET'],
+		tags: [],
 		channel: {
 			name: '',
 			url: '',
@@ -31,13 +31,15 @@ class ChannelModal extends Component {
 
   constructor(props) {
     super(props);
+    console.log(props.isEdit);
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1,r2) => r1.id !== r2.id});
     this.tags = props.tags.map((item)=>{
     	return {
     		tag: item,
-    		checked: props.channel.tags.indexOf(item) !== -1 ? true : false
+    		checked: props.isEdit && props.channel.tags.indexOf(item) !== -1 ? true : false
     	};
     });
+    this.channel = props.isEdit ? props.channel : { name: '', url: '', tags: [] };
     this.dataSource = this.dataSource.cloneWithRows(this.tags);
   }
 
@@ -50,6 +52,11 @@ class ChannelModal extends Component {
 		if (this.props.submit){
 			this.props.submit(channel);
 		}
+	}
+	
+	_onCheckboxClick (data, rowId) {
+		this.tags[rowId].checked = !data.checked;
+		this.dataSource.cloneWithRows(this.tags);
 	}
 
 	_getButton () {
@@ -83,15 +90,11 @@ class ChannelModal extends Component {
 		);
 	}
 
-	_onCheckboxClick (data, rowId) {
-		this.tags[rowId].checked = !data.checked;
-		this.dataSource.cloneWithRows(this.tags);
-	}
-
 	_renderListView () {
 		return (
 			<View style = {styles.listContainer}>
 	  		<ListView
+	  		enableEmptySections={ true }
 	  		style = {styles.list}
 	  		dataSource = {this.dataSource}
 	  		renderRow = {this._renderRow.bind(this)}
@@ -116,8 +119,8 @@ class ChannelModal extends Component {
     return (
 	  	<View style = {styles.container}>
 	  		<Text style= {styles.textTitle}>New Channel</Text>
-	  		{this._renderInput('Channel Url', this.props.channel.url)}
-		    {this._renderInput('Channel Name',this.props.channel.name)}
+	  		{this._renderInput('Channel Url', this.channel.url)}
+		    {this._renderInput('Channel Name',this.channel.name)}
 		    {this._renderListView()}
 	    	{this._getButton()}
   		</View>

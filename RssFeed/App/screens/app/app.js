@@ -13,8 +13,8 @@ import Drawer from '../../components/drawer/component';
 //ACTIONS
 import ToggleDrawer from '../../actions/drawer.action';
 import { refreshFeed } from '../../actions/feed.action';
-import { toggleTagModal } from '../../actions/tag.action';
-import { toggleChannelModal } from '../../actions/channel.action';
+import { toggleModal } from '../../actions/modal.action';
+import { toggleModalChannel } from '../../actions/channel.action';
 //STYLE
 import styles from './style';
 
@@ -140,9 +140,9 @@ function mapDispatchToProps(dispatch) {
       if (screen === 'feed') {
         dispatch(refreshFeed());
       } else if (screen === 'tag') {
-        dispatch(toggleTagModal(true));
+        dispatch(toggleModal(true));
       } else {
-        dispatch(toggleChannelModal(true));
+        dispatch(toggleModalChannel(undefined,true));
       }
     }
   };

@@ -14,19 +14,22 @@ function deleteChannel (url) {
 
 function editChannel (channel) {
   return {
-    type: 'EDIT_CHANNEL'
+    type: 'EDIT_CHANNEL',
+    channel: channel,
   };
 }
 
-function toggleChannelModal(){
+function toggleModalChannel (channel, isModalOpen) {
   return {
-    type: 'TOGGLE_MODAL_CHANNEL'
-  };
+    type: 'TOGGLE_MODAL_CHANNEL',
+    channel: channel,
+    isModalOpen: isModalOpen
+  }
 }
 
 module.exports = {
   addChannel,
   deleteChannel,
   editChannel,
-  toggleChannelModal
+  toggleModalChannel
 };

@@ -14,13 +14,11 @@ import ToggleDrawer from '../../actions/drawer.action';
 
 class Drawer extends Component {
   
-  _renderButton(image, text){
-    return (
-      <View style={ styles.buttonContainer}>
-        <Image style={ styles.image} source={ image }/>
-        <Text style={ styles.text}>{ text }</Text> 
-      </View>
-    );
+  constructor(props){
+    super(props);
+    this.channelImage = require('./resources/ic_note_add.png');
+    this.tagImage = require('./resources/ic_label.png');
+    this.feedImage = require('./resources/ic_rss_feed.png');
   }
   
   componentWillReceiveProps(nextProps) {
@@ -32,61 +30,75 @@ class Drawer extends Component {
 
   _actionClick(action) {
     Actions[action]();
-    this.refs.drawer.closeDrawer();
+    this.props.toggleDrawer(false);
+  }
+
+  onDrawerClose() {
+    if (this.props.isOpen){
+      this.props.toggleDrawer(false);
+    }
   }
 
   toggleDrawer(props) {
     if (props.isOpen) {
       this.refs.drawer.openDrawer();
-    } else {
+    } else if (this.refs.drawer.state.drawerShown) {
       this.refs.drawer.closeDrawer();
     }
   }
 
-  _renderNavigation () {
-    let channelImage = require('./resources/ic_note_add.png');
-    let tagImage = require('./resources/ic_label.png');
-    let feedImage = require('./resources/ic_rss_feed.png');
-    if (Platform.OS === 'ios') {
-      let underlayColor = 'rgba(0,0,0,0.08)';
-      return (
-        <View style = { styles.container }>
-          <TouchableHighlight onPress = {() => this._actionClick('feed')} underlayColor = { underlayColor }>
-            { this._renderButton(feedImage, 'Feed') }
-          </TouchableHighlight>
-          <TouchableHighlight onPress = {() => this._actionClick('tag')} underlayColor = { underlayColor }>
-            { this._renderButton(tagImage, 'Tag') }
-          </TouchableHighlight>
-          <TouchableHighlight onPress = {() => this._actionClick('channel')} underlayColor = { underlayColor }>
-            { this._renderButton(channelImage, 'Channel') }
-          </TouchableHighlight>
-        </View>
-      );
-    } else {
-      return (
-        <View style = { styles.container }>
-          <TouchableNativeFeedback onPress = {() => this._actionClick('feed')}>
-            { this._renderButton(feedImage, 'Feed') }
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback onPress = {() => this._actionClick('tag')}>
-            { this._renderButton(tagImage, 'Tag') }
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback onPress = {() => this._actionClick('channel')}>
-            { this._renderButton(channelImage, 'Channel') }
-          </TouchableNativeFeedback>
-        </View>
-      );
-    }
+  _renderNavigationIOS () {
+    let underlayColor = 'rgba(0,0,0,0.08)';
+    return (
+      <View style = { styles.container }>
+        <TouchableHighlight onPress = {() => this._actionClick('feed')} underlayColor = { underlayColor }>
+          { this._renderButton(this.feedImage, 'Feed') }
+        </TouchableHighlight>
+        <TouchableHighlight onPress = {() => this._actionClick('tag')} underlayColor = { underlayColor }>
+          { this._renderButton(this.tagImage, 'Tag') }
+        </TouchableHighlight>
+        <TouchableHighlight onPress = {() => this._actionClick('channel')} underlayColor = { underlayColor }>
+          { this._renderButton(this.channelImage, 'Channel') }
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
+  _renderNavigationAndroid () {
+    return (
+      <View style = { styles.container }>
+        <TouchableNativeFeedback onPress = {() => this._actionClick('feed')}>
+          { this._renderButton(this.feedImage, 'Feed') }
+        </TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress = {() => this._actionClick('tag')}>
+          { this._renderButton(this.tagImage, 'Tag') }
+        </TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress = {() => this._actionClick('channel')}>
+          { this._renderButton(this.channelImage, 'Channel') }
+        </TouchableNativeFeedback>
+      </View>
+    );
+  }
+
+  _renderButton(image, text){
+    return (
+      <View style={ styles.buttonContainer}>
+        <Image style={ styles.image} source={ image }/>
+        <Text style={ styles.text}>{ text }</Text> 
+      </View>
+    );
   }
 
   render () {
+    let navView = Platform.OS === 'ios'? 
+                  this._renderNavigationIOS.bind(this): 
+                  this._renderNavigationAndroid.bind(this)
     return (
       <DrawerLayout
         ref = 'drawer'
         drawerWidth={ 300 }
-        onDrawerClose={ () => this.props.toggleDrawer(false) }
-        onDrawerOpen={ () => this.props.toggleDrawer(true) }
-        renderNavigationView={this._renderNavigation.bind(this)}>
+        onDrawerClose={ this.onDrawerClose.bind(this) }
+        renderNavigationView={ navView }>
           { this.props.children }
       </DrawerLayout>
     );

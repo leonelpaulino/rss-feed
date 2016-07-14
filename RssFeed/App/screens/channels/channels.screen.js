@@ -24,14 +24,10 @@ import {
 	addChannel,
   deleteChannel,
   editChannel,
-  toggleChannelModal 
+  toggleModalChannel
 } from '../../actions/channel.action';
 
 class Channel extends Component {
-
-    static defaultProps = {
-      isModalOpen: false
-    }
 
     constructor(props) {
       super(props)
@@ -43,18 +39,13 @@ class Channel extends Component {
       }
     }
 
-  _onEditClick () {
-
-  }
-
-  _onDeleteClick() {
-
-  }
   _renderRow(data) {
-    return <ChannelRow 
-	    data={data} 
-	    editClick={this._onEditClick}
-	    deleteClick={this._onDeleteClick}/>;
+    return (
+      <ChannelRow 
+  	    data={data} 
+  	    editClick={() => this.props.editChannel(data)}
+  	    deleteClick={() => this.props.onDelete(data)}/>
+    );
   }
 
   _renderSeparator() {
@@ -62,24 +53,42 @@ class Channel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.dataSource = this.dataSource.cloneWithRows(nextProps.channels);     
+    if (nextProps.channels){
+      this.dataSource = this.dataSource.cloneWithRows(nextProps.channels);     
+    }
   }
 
+  _getChannelModal() {
+    let isEdit = false;
+    let submit = this.props.onSubmit;
+    if ( this.props.channel ) {
+      submit = this.props.onEdit;
+      isEdit = true;
+    }
+    return (
+      <ChannelModal 
+        tags={ this.props.tags } 
+        channel={ this.props.channel } 
+        isEdit={ isEdit }
+        submit={ submit }/>
+    );
+  }
 
   render () {
     return (
       <View style={ styles.container }>
         <ListView
-          enableEmptySectinos={ true }
+          enableEmptySections={ true }
           renderRow={ this._renderRow.bind(this) }
           dataSource={ this.dataSource }
           renderSeparator={ this._renderSeparator }
         />
         <Modal 
           isOpen={ this.props.isModalOpen }
-          height={ 200 }
-          swipeToClose={ true }
-          component={ <ChannelModal data={ this.props.selectedChannel } submit={this.props.onSubmit}/>}
+          height={ 350 }
+          onClose = { this.props.onCloseModal }
+          swipeToClose={ false }
+          component={  this._getChannelModal() }
         />
       </View>
     );
@@ -88,16 +97,33 @@ class Channel extends Component {
 
 function mapStateToProps(objState) {
   return {
-    tags: objState.channels.channels,
-    isModalOpen: objState.channels.isModalOpen
+    channels: objState.channels.channels,
+    tags: objState.tags.tags,
+    isModalOpen: objState.channels.isModalOpen,
+    channel: objState.channels.channel
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     onSubmit: (data) => {
       dispatch(addChannel(data));
-      dispatch(toggleChannelModal(false));
+      dispatch(toggleModalChannel(undefined,false));
+    },
+    onCloseModal: () => {
+      if (ownProps.isModalOpen) {
+        dispatch(toggleModalChannel(undefined, false))
+      }
+    },
+    onEdit: (data) => {
+      dispatch(editChannel(data));
+      dispatch(toggleModalChannel(undefined,false));
+    },
+    onDelete: (data) => {
+      dispatch(deleteChannel(data));
+    },
+    editChannel: (channel) => {  
+      dispatch(toggleModalChannel(channel, true))
     }
   }
 }

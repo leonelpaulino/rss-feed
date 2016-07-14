@@ -6,14 +6,6 @@ function addTag (tag) {
   };
 }
 
-function toggleTagModal (isOpen) {
-  return {
-    type: 'TOGGLE_TAG_MODAL',
-    isModalOpen: isOpen
-  }
-}
-
 module.exports = {
-  addTag,
-  toggleTagModal
+  addTag
 };

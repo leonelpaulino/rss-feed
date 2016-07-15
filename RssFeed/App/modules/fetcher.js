@@ -1,20 +1,20 @@
 'use strict'
 
-var fetcher = {}
+let fetcher = {}
 fetcher.load = function(options,callback){
-  var apiRoot = 'https://api.feednami.com/api/v1'
-  var feedUrl = options
+  let apiRoot = 'https://api.feednami.com/api/v1'
+  let feedUrl = options
   if(typeof options == 'object'){
     feedUrl = options.url
   }
-  var qs = 'url='+encodeURIComponent(feedUrl)
+  let qs = 'url='+encodeURIComponent(feedUrl)
   if(options.format){
     qs += '&include_xml_document&format='+options.format
   }
   if(options.includeXml){
     qs += '&include_xml_document'
   }
-  var url = apiRoot+'/feeds/load?'+qs
+  let url = apiRoot+'/feeds/load?'+qs
 
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -29,7 +29,7 @@ fetcher.load = function(options,callback){
 }
 
 fetcher.loadGoogleFormat = function(feedUrl,callback){
-  return feednami.load({
+  return fetcher.load({
     url: feedUrl,
     format: 'google',
     includeXml: true

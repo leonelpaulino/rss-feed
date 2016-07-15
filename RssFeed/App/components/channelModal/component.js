@@ -25,29 +25,31 @@ class ChannelModal extends Component {
 		channel: {
 			name: '',
 			url: '',
-			tags: []
+			tags: [],
+			id: ''
 		} 
 	}
 
   constructor(props) {
     super(props);
-    console.log(props.isEdit);
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1,r2) => r1.id !== r2.id});
     this.tags = props.tags.map((item)=>{
     	return {
     		tag: item,
-    		checked: props.isEdit && props.channel.tags.indexOf(item) !== -1 ? true : false
+    		checked: props.isEdit && props.channel.tag.indexOf(item) !== -1 ? true : false
     	};
     });
-    this.channel = props.isEdit ? props.channel : { name: '', url: '', tags: [] };
+    this.channel = props.isEdit ? props.channel : { name: '', url: '', tag: [] };
     this.dataSource = this.dataSource.cloneWithRows(this.tags);
   }
 
 	_submit () {
+		let tags = this.tags.filter((item) => item.checked === true);
 		let channel = {
-			tags: this.tags.filter((item) => item.checked === true),
+			tag: tags.map((data) => data.tag),
 			url: this.refs['Channel Url'].state.text,
-			name: this.refs['Channel Name'].state.text
+			name: this.refs['Channel Name'].state.text,
+			id: this.props.channel.id
 		}
 		if (this.props.submit){
 			this.props.submit(channel);

@@ -21,6 +21,7 @@ import Modal from '../../components/modal/component'
 import Separator from '../../components/separator/component';
 import styles from './style';
 import { addTag } from '../../actions/tag.action';
+import { filterChannels } from '../../actions/channel.action';
 import { toggleModal } from '../../actions/modal.action';
 
 class Tags extends Component {
@@ -36,11 +37,12 @@ class Tags extends Component {
     }
 
   _onRowClick(data) {
+    this.props.filterChannels(data, this.props.channels);
     Actions['feedTag']();
   }
 
   _renderRow(data) {
-    return <TagRow data={data} onClick={this._onRowClick}/>;
+    return <TagRow data={data} onClick={this._onRowClick.bind(this)}/>;
   }
 
   _renderSeparator() {
@@ -68,28 +70,32 @@ class Tags extends Component {
           onClose={ this.props.onCloseModal }
           height={ 200 }
           swipeToClose={ true }
-          component={ <TagModal submit={this.props.onSubmit}/>}
+          component={ <TagModal submit={(tag)=> this.props.onSubmit(tag, this.props.tags)}/>}
         />
       </View>
     );
   }
 }
 
-function mapStateToProps(objState) {
+function mapStateToProps(state) {
   return {
-    tags: objState.tags.tags,
-    isModalOpen: objState.modal.isModalOpen
+    tags: state.tags.tags,
+    isModalOpen: state.modal.isModalOpen,
+    channels: state.channels.channels
   }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
-    onSubmit: (data) => {
-      dispatch(addTag(data));
+    onSubmit: (tag, tags) => {
+      dispatch(addTag(tag, tags));
       dispatch(toggleModal(false));
     },
     onCloseModal: () => {
       dispatch(toggleModal(false));
+    },
+    filterChannels: (tag, channels) => {
+      dispatch(filterChannels(tag, channels))
     }
   };
 }

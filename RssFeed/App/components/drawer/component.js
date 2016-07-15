@@ -11,6 +11,7 @@ import styles from './style';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ToggleDrawer from '../../actions/drawer.action';
+import { filterChannels } from '../../actions/channel.action';
 
 class Drawer extends Component {
   
@@ -30,6 +31,7 @@ class Drawer extends Component {
 
   _actionClick(action) {
     Actions[action]();
+    this.props.filterChannel(this.props.channels);
     this.props.toggleDrawer(false);
   }
 
@@ -83,8 +85,8 @@ class Drawer extends Component {
   _renderButton(image, text){
     return (
       <View style={ styles.buttonContainer}>
-        <Image style={ styles.image} source={ image }/>
-        <Text style={ styles.text}>{ text }</Text> 
+        <Image style={ styles.image } source={ image }/>
+        <Text style={ styles.text }>{ text }</Text> 
       </View>
     );
   }
@@ -105,13 +107,17 @@ class Drawer extends Component {
   }
 }
 
-function mapsStateToProps(objState) {
-  return { isOpen: objState.drawer.isOpen };
+function mapsStateToProps(state) {
+  return { 
+    isOpen: state.drawer.isOpen,
+    channels: state.channels.channels
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleDrawer: (isOpen) => dispatch(ToggleDrawer(isOpen))
+    toggleDrawer: (isOpen) => dispatch(ToggleDrawer(isOpen)),
+    filterChannel: (channels) => dispatch(filterChannels('', channels))
   }
 }
   

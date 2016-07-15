@@ -31,7 +31,7 @@ class Channel extends Component {
 
     constructor(props) {
       super(props)
-       let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
+       let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
        if (props.channels) {
         this.dataSource = ds.cloneWithRows(props.channels)
       } else {
@@ -43,8 +43,8 @@ class Channel extends Component {
     return (
       <ChannelRow 
   	    data={data} 
-  	    editClick={() => this.props.editChannel(data)}
-  	    deleteClick={() => this.props.onDelete(data)}/>
+  	    editClick={() => this.props.onEditChannel(data)}
+  	    deleteClick={() => this.props.onDelete(data, this.props.channels)}/>
     );
   }
 
@@ -53,6 +53,7 @@ class Channel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.channels){
       this.dataSource = this.dataSource.cloneWithRows(nextProps.channels);     
     }
@@ -70,7 +71,7 @@ class Channel extends Component {
         tags={ this.props.tags } 
         channel={ this.props.channel } 
         isEdit={ isEdit }
-        submit={ submit }/>
+        submit={ (data) => submit(data, this.props.channels) }/>
     );
   }
 
@@ -106,23 +107,22 @@ function mapStateToProps(objState) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onSubmit: (data) => {
-      dispatch(addChannel(data));
+    onSubmit: (data, channels) => {
+      dispatch(addChannel(data, channels));
       dispatch(toggleModalChannel(undefined,false));
     },
     onCloseModal: () => {
-      if (ownProps.isModalOpen) {
-        dispatch(toggleModalChannel(undefined, false))
-      }
+      dispatch(toggleModalChannel(undefined, false))
+      
     },
-    onEdit: (data) => {
-      dispatch(editChannel(data));
+    onEdit: (data, channels) => {
+      dispatch(editChannel(data, channels));
       dispatch(toggleModalChannel(undefined,false));
     },
-    onDelete: (data) => {
-      dispatch(deleteChannel(data));
+    onDelete: (data, channels) => {
+      dispatch(deleteChannel(data, channels));
     },
-    editChannel: (channel) => {  
+    onEditChannel: (channel) => {  
       dispatch(toggleModalChannel(channel, true))
     }
   }

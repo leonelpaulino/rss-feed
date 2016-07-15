@@ -1,13 +1,13 @@
 'use strict';
 const INITIAL_STATE = {
-  tags: ['EI','ET','EE']
+  tags: ['NEWS','SPORTS']
 };
 
 function tags(state=INITIAL_STATE, action) {
   if (action.type === 'ADD_TAG') {
     return {
       ...state,
-      tags: state.tags
+      tags: action.tags
     };
   } else {
     return {

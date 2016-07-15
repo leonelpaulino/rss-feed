@@ -24,16 +24,26 @@ class feedRow extends Component {
 
   constructor( props) {
     super(props);
+    let image = '';
+    if (props.data.mediaGroups.length > 0){
+    	image = props.data.mediaGroups[0].contents[0].url;
+    }
+    this.data = {
+    	description: props.data.contentSnippet,
+			title: props.data.contentSnippet,
+			image: image
+    }
+
   }
 
   _getImage () {
-  	return <Image source={{url: this.props.data.url}} style={styles.image}/>
+  	return <Image source={{uri: this.data.image}} style={styles.image}/>
   }
 
   _getDescription () {
   	return (
   		<View style={styles.descriptionContainer}>
-  		<Text style={styles.text}>{this.props.data.description}</Text>
+  		<Text style={styles.text}>{this.data.description}</Text>
   		</View>
   	);
   }	

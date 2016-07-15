@@ -28,7 +28,7 @@ setTheme({checkboxStyle: {
 }});
 
 class App extends Component {
-
+  
   constructor(props) {
     super(props);
     this.addImage = require('../../images/ic_add.png');
@@ -75,7 +75,7 @@ class App extends Component {
       );
     } else {
       return (
-        <TouchableNativeFeedback onPress={() => this.props.rightButtonPress(screen)}>
+        <TouchableNativeFeedback onPress={() => this.props.rightButtonClick(screen)}>
           { this._renderImage(image) }
         </TouchableNativeFeedback>
       );
